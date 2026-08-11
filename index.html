@@ -4,15 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Wedding of Sylvia & Adi</title>
-
-    <!-- OPEN GRAPH META TAGS (Untuk memunculkan gambar di WhatsApp & Sosmed) -->
-    <meta property="og:title" content="The Wedding of Sylvia & Adi" />
-    <meta property="og:description" content="Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk hadir pada acara pernikahan kami. Minggu, 06 September 2026." />
-    <!-- Sesuaikan URL di bawah dengan link website Anda -->
-    <meta property="og:url" content="https://adinara16.github.io/" /> 
-    <!-- Menggunakan gambar cover Anda sebagai gambar preview -->
-    <meta property="og:image" content="https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o" />
-    <meta property="og:type" content="website" />
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -152,8 +143,10 @@
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section id="hero" class="relative w-full h-screen flex flex-col items-center justify-center text-center bg-fixed bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o'); background-position: center 32%;">
+    <!-- Hero Section 2 (Diperbaiki untuk masalah zoom iOS) -->
+    <section id="hero" class="relative w-full h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-darker">
+        <!-- Background image div (Replacing bg-fixed to fix iOS zoom bug) -->
+        <div class="absolute inset-0 bg-[url('https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o')] bg-cover" style="background-position: center 32%;"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-dark/60 via-dark/40 to-darker"></div>
         
         <div class="relative z-10 p-6 fade-up">
@@ -184,7 +177,7 @@
         <div class="absolute top-0 right-0 w-64 h-64 bg-accent rounded-full filter blur-[120px] opacity-10"></div>
         <div class="absolute bottom-0 left-0 w-64 h-64 bg-ivory rounded-full filter blur-[120px] opacity-5"></div>
         
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-5xl mx-auto relative z-10">
             <div class="text-center mb-16 fade-up">
                 <h2 class="font-serif text-4xl md:text-5xl text-accent mb-4">Mempelai</h2>
                 <p class="text-gray-400 font-light text-sm md:text-base">Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami.</p>
@@ -223,8 +216,10 @@
         </div>
     </section>
 
-    <!-- Event Details & Countdown -->
-    <section class="py-20 px-6 bg-darker bg-[url('https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o')] bg-fixed bg-cover bg-center relative">
+    <!-- Event Details & Countdown (Diperbaiki untuk masalah zoom iOS) -->
+    <section class="py-20 px-6 bg-darker relative overflow-hidden">
+        <!-- Background image div (Replacing bg-fixed to fix iOS zoom bug) -->
+        <div class="absolute inset-0 bg-[url('https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o')] bg-cover bg-center"></div>
         <div class="absolute inset-0 bg-darker/90 backdrop-blur-sm"></div>
         
         <div class="max-w-4xl mx-auto relative z-10">
@@ -270,7 +265,7 @@
                 <div class="glass rounded-2xl p-8 text-center fade-up border-t-2 border-accent">
                     <i class="fa-solid fa-champagne-glasses text-3xl text-accent mb-4"></i>
                     <h3 class="font-serif text-2xl mb-2 text-ivory">Resepsi</h3>
-                    <p class="text-gray-300 mb-4 font-light">Minggu, 06 September 2026<br>08:00 WIB - Selesai</p>
+                    <p class="text-gray-300 mb-4 font-light">Minggu, 06 September 2026<br>09:00 WIB - Selesai</p>
                 </div>
             </div>
 
@@ -416,14 +411,14 @@
 
         // Konfigurasi Firebase dari User
         const firebaseConfig = {
-            apiKey: "AIzaSyAa0owBSlCU5DVWwwulgpZTI8RlYPO5tRE",
-            authDomain: "web-undangan-78e36.firebaseapp.com",
-            databaseURL: "https://web-undangan-78e36-default-rtdb.firebaseio.com",
-            projectId: "web-undangan-78e36",
-            storageBucket: "web-undangan-78e36.firebasestorage.app",
-            messagingSenderId: "169174442955",
-            appId: "1:169174442955:web:5e6b6725478a4be92b8c4e",
-            measurementId: "G-1CLTG4PRZL"
+          apiKey: "AIzaSyAa0owBSlCU5DVWwwulgpZTI8RlYPO5tRE",
+          authDomain: "web-undangan-78e36.firebaseapp.com",
+          databaseURL: "https://web-undangan-78e36-default-rtdb.firebaseio.com",
+          projectId: "web-undangan-78e36",
+          storageBucket: "web-undangan-78e36.firebasestorage.app",
+          messagingSenderId: "169174442955",
+          appId: "1:169174442955:web:5e6b6725478a4be92b8c4e",
+          measurementId: "G-1CLTG4PRZL"
         };
 
 
@@ -556,7 +551,7 @@
             }, 3000);
         }
 
-        // Relative time formatter (e.g., "5 menit yang lalu")
+        // Relative time formatter
         function getRelativeTime(timestamp) {
             if (!timestamp) return 'Baru saja';
             const rtf = new Intl.RelativeTimeFormat('id', { numeric: 'auto' });
@@ -573,7 +568,6 @@
         // Initialize Authentication to access Firestore
         async function initializeAppAuth() {
             try {
-                // Gunakan Anonymous Sign-in untuk database Firebase eksternal
                 const credential = await signInAnonymously(auth);
                 const user = credential.user;
                 if (user) {
@@ -587,7 +581,6 @@
         }
 
         function setupFirestoreInteractions(userId) {
-            // Path strict document collection
             const wishesCollectionRef = collection(db, 'wishes');
 
             // 1. READ: Listen for real-time updates
