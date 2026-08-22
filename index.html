@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding of Sylvia & Adi</title>
     
+    <!-- Primary Meta Tags -->
+    <title>The Wedding of Sylvia & Adi</title>
+    <meta name="title" content="The Wedding of Sylvia & Adi">
+    <meta name="description" content="Minggu, 06 September 2026. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- Tag ini yang memastikan thumbnail muncul saat link disebarkan -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://undangan-sylvia-adi.web.app/"> <!-- Ganti dengan URL domain asli Anda nantinya jika ada -->
+    <meta property="og:title" content="The Wedding of Sylvia & Adi">
+    <meta property="og:description" content="Minggu, 06 September 2026. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
+    <meta property="og:image" itemprop="image" content="https://lh3.googleusercontent.com/d/1kVcw6eQnoDgPRuQ0OMyEXZ9qsevPpwjs">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="The Wedding of Sylvia & Adi">
+    <meta property="twitter:description" content="Minggu, 06 September 2026. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
+    <meta property="twitter:image" content="https://lh3.googleusercontent.com/d/1kVcw6eQnoDgPRuQ0OMyEXZ9qsevPpwjs">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,9 +163,8 @@
         </div>
     </div>
 
-    <!-- Hero Section 2 (Diperbaiki untuk masalah zoom iOS) -->
+    <!-- Hero Section -->
     <section id="hero" class="relative w-full h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-darker">
-        <!-- Background image div (Replacing bg-fixed to fix iOS zoom bug) -->
         <div class="absolute inset-0 bg-[url('https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o')] bg-cover" style="background-position: center 32%;"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-dark/60 via-dark/40 to-darker"></div>
         
@@ -216,9 +235,8 @@
         </div>
     </section>
 
-    <!-- Event Details & Countdown (Diperbaiki untuk masalah zoom iOS) -->
+    <!-- Event Details & Countdown -->
     <section class="py-20 px-6 bg-darker relative overflow-hidden">
-        <!-- Background image div (Replacing bg-fixed to fix iOS zoom bug) -->
         <div class="absolute inset-0 bg-[url('https://lh3.googleusercontent.com/d/1mbX-WS5Zgp4W7NJFoGYelUFyQiGDqm6o')] bg-cover bg-center"></div>
         <div class="absolute inset-0 bg-darker/90 backdrop-blur-sm"></div>
         
@@ -278,7 +296,7 @@
                 <!-- Google Maps Embed -->
                 <div class="w-full h-64 md:h-80 rounded-xl overflow-hidden mb-6">
                     <iframe 
-                        src="https://maps.google.com/maps?q=Jl.%20Delima%20I,%20Perum%20Griya%20Yasa,%20Talagasari,%20Kec.%20Cikupa,%20Kabupaten%20Tangerang,%20Banten%2015710&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        src="https://maps.google.com/maps?q=-6.2156385,106.5247739&t=&z=18&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
                         height="100%" 
                         style="border:0;" 
@@ -288,7 +306,8 @@
                     </iframe>
                 </div>
 
-                <a href="https://maps.google.com/maps?q=Jl.%20Delima%20I,%20Perum%20Griya%20Yasa,%20Talagasari,%20Kec.%20Cikupa,%20Kabupaten%20Tangerang,%20Banten%2015710" target="_blank" class="inline-block px-6 py-3 border border-accent text-accent rounded-full hover:bg-accent hover:text-darker transition-colors duration-300">
+                <!-- Tombol ini sudah diperbarui dengan link yang diberikan user -->
+                <a href="https://maps.app.goo.gl/jyweiVVQr8t1C4ht7" target="_blank" class="inline-block px-6 py-3 border border-accent text-accent rounded-full hover:bg-accent hover:text-darker transition-colors duration-300 shadow-lg">
                     <i class="fa-solid fa-map-location-dot mr-2"></i> Buka Google Maps
                 </a>
             </div>
@@ -432,8 +451,6 @@
         const container = document.getElementById('wishes-container');
         const loadingText = document.getElementById('loading-text');
         
-        // --- UI Interactions ---
-
         // Mencegah browser mengembalikan posisi scroll sebelumnya saat refresh
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
@@ -526,8 +543,6 @@
         }, observerOptions);
         document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
 
-        // --- Firebase Data Interactions ---
-
         // Toast Notification Helper
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
@@ -583,7 +598,7 @@
         function setupFirestoreInteractions(userId) {
             const wishesCollectionRef = collection(db, 'wishes');
 
-            // 1. READ: Listen for real-time updates
+            // READ: Listen for real-time updates
             onSnapshot(wishesCollectionRef, (snapshot) => {
                 const wishes = [];
                 snapshot.forEach(doc => {
@@ -598,7 +613,7 @@
                 showToast("Gagal memuat daftar ucapan", true);
             });
 
-            // 2. WRITE: Handle form submission
+            // WRITE: Handle form submission
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const nameInput = document.getElementById('name');
