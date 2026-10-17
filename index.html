@@ -10,9 +10,8 @@
     <meta name="description" content="Minggu, 06 September 2026. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
 
     <!-- Open Graph / Facebook / WhatsApp -->
-    <!-- Tag ini yang memastikan thumbnail muncul saat link disebarkan -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://undangan-sylvia-adi.web.app/"> <!-- Ganti dengan URL domain asli Anda nantinya jika ada -->
+    <meta property="og:url" content="https://adinara16.github.io/">
     <meta property="og:title" content="The Wedding of Sylvia & Adi">
     <meta property="og:description" content="Minggu, 06 September 2026. Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
     <meta property="og:image" itemprop="image" content="https://lh3.googleusercontent.com/d/1kVcw6eQnoDgPRuQ0OMyEXZ9qsevPpwjs">
@@ -43,7 +42,7 @@
                         dark: '#121212',
                         darker: '#0a0a0a',
                         ivory: '#FFFFF0',
-                        accent: '#a89c8a', // Soft gold/bronze for subtle accents
+                        accent: '#a89c8a',
                     },
                     fontFamily: {
                         serif: ['"Cormorant Garamond"', 'serif'],
@@ -149,14 +148,21 @@
 </head>
 <body class="bg-darker text-ivory font-sans antialiased locked">
 
-    <!-- Cover Overlay (Required for Autoplay & Initial Impact) -->
+    <!-- Cover Overlay -->
     <div id="cover-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-darker bg-opacity-95 transition-transform duration-1000">
         <div class="absolute inset-0 bg-[url('https://lh3.googleusercontent.com/d/1kVcw6eQnoDgPRuQ0OMyEXZ9qsevPpwjs')] bg-cover opacity-20" style="background-position: center 32%;"></div>
         <div class="relative z-10 text-center px-6">
             <p class="uppercase tracking-widest text-xs md:text-sm mb-4 text-accent">The Wedding Of</p>
             <h1 class="font-serif text-5xl md:text-7xl mb-6">Sylvia & Adi</h1>
-            <p class="mb-10 text-sm md:text-base font-light italic text-gray-300">06 September 2026</p>
-            <p class="text-sm mb-8 text-gray-400">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
+            <p class="mb-8 text-sm md:text-base font-light italic text-gray-300">06 September 2026</p>
+            
+            <!-- Tempat menampilkan nama penerima -->
+            <div class="mb-8">
+                <p class="text-xs md:text-sm text-gray-400 uppercase tracking-widest mb-2">Kepada Yth.</p>
+                <p class="text-xs text-gray-400 mb-1">Bapak/Ibu/Saudara/i</p>
+                <h2 id="guest-name" class="font-serif text-2xl md:text-3xl text-accent font-semibold capitalize mt-2 min-h-[2.25rem]">---</h2>
+            </div>
+
             <button id="open-invitation" class="px-8 py-3 bg-accent text-darker font-medium rounded-full hover:bg-ivory transition-colors shadow-lg animate-bounce">
                 <i class="fa-solid fa-envelope-open mr-2"></i> Buka Undangan
             </button>
@@ -306,7 +312,6 @@
                     </iframe>
                 </div>
 
-                <!-- Tombol ini sudah diperbarui dengan link yang diberikan user -->
                 <a href="https://maps.app.goo.gl/jyweiVVQr8t1C4ht7" target="_blank" class="inline-block px-6 py-3 border border-accent text-accent rounded-full hover:bg-accent hover:text-darker transition-colors duration-300 shadow-lg">
                     <i class="fa-solid fa-map-location-dot mr-2"></i> Buka Google Maps
                 </a>
@@ -397,7 +402,6 @@
 
     <!-- Floating Music Control (Vinyl Player) -->
     <div id="music-control" class="fixed bottom-6 right-6 z-40 w-14 h-14 cursor-pointer hidden group">
-        <!-- Spinning Vinyl -->
         <div id="vinyl-record" class="w-full h-full rounded-full bg-[#111] border-2 border-accent/60 shadow-[0_0_15px_rgba(168,156,138,0.4)] flex items-center justify-center relative overflow-hidden transition-transform duration-300 group-hover:scale-105 animate-spin-slow">
             <div class="absolute inset-[3px] rounded-full border border-gray-700/50"></div>
             <div class="absolute inset-[7px] rounded-full border border-gray-600/40"></div>
@@ -406,11 +410,9 @@
                 <div class="w-1 h-1 bg-darker rounded-full"></div>
             </div>
         </div>
-        <!-- Hover Overlay -->
         <div id="music-overlay" class="absolute inset-0 flex items-center justify-center z-20 transition-opacity duration-300 opacity-0 group-hover:opacity-100 bg-darker/60 rounded-full">
             <i class="fa-solid fa-pause text-ivory text-lg" id="music-icon"></i>
         </div>
-        <!-- Floating Notes -->
         <div id="music-notes" class="absolute -top-2 -left-2 w-full h-full pointer-events-none">
             <i class="fa-solid fa-music text-accent text-[11px] absolute top-0 left-0 animate-music-note" style="animation-delay: 0s;"></i>
             <i class="fa-solid fa-music text-ivory text-[13px] absolute top-1 right-0 animate-music-note" style="animation-delay: 1.5s;"></i>
@@ -423,12 +425,31 @@
         <span id="toast-message">Ucapan berhasil dikirim!</span>
     </div>
 
+    <!-- Main Logic Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Konfigurasi Firebase dari User
+        // Fitur Baca Parameter URL Penerima Undangan (?to=Nama)
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const guestName = urlParams.get('to');
+            const guestNameElement = document.getElementById('guest-name');
+            const nameInput = document.getElementById('name');
+
+            if (guestName && guestName.trim() !== '') {
+                const formattedName = decodeURIComponent(guestName.trim());
+                guestNameElement.textContent = formattedName;
+                if (nameInput) {
+                    nameInput.value = formattedName;
+                }
+            } else {
+                guestNameElement.textContent = 'Tamu Undangan';
+            }
+        });
+
+        // Konfigurasi Firebase
         const firebaseConfig = {
           apiKey: "AIzaSyAa0owBSlCU5DVWwwulgpZTI8RlYPO5tRE",
           authDomain: "web-undangan-78e36.firebaseapp.com",
@@ -440,7 +461,6 @@
           measurementId: "G-1CLTG4PRZL"
         };
 
-
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
@@ -451,12 +471,9 @@
         const container = document.getElementById('wishes-container');
         const loadingText = document.getElementById('loading-text');
         
-        // Mencegah browser mengembalikan posisi scroll sebelumnya saat refresh
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
-
-        // Scroll to top on load
         window.scrollTo(0, 0);
 
         // Cover & Audio Logic
@@ -527,12 +544,8 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Scroll Animations (Intersection Observer)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
+        // Scroll Animations
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -543,7 +556,7 @@
         }, observerOptions);
         document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
 
-        // Toast Notification Helper
+        // Toast Helper
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
         const toastIcon = document.getElementById('toast-icon');
@@ -559,20 +572,20 @@
                 toast.classList.replace('text-white', 'text-darker');
                 toastIcon.classList.replace('fa-circle-exclamation', 'fa-circle-check');
             }
-            
             toast.classList.remove('opacity-0', 'pointer-events-none');
             setTimeout(() => { 
                 toast.classList.add('opacity-0', 'pointer-events-none'); 
             }, 3000);
         }
 
-        // Relative time formatter
+        // Relative Time Formatter
         function getRelativeTime(timestamp) {
             if (!timestamp) return 'Baru saja';
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
             const rtf = new Intl.RelativeTimeFormat('id', { numeric: 'auto' });
-            const daysDifference = Math.round((timestamp - Date.now()) / (1000 * 60 * 60 * 24));
-            const hoursDifference = Math.round((timestamp - Date.now()) / (1000 * 60 * 60));
-            const minutesDifference = Math.round((timestamp - Date.now()) / (1000 * 60));
+            const daysDifference = Math.round((date.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+            const hoursDifference = Math.round((date.getTime() - Date.now()) / (1000 * 60 * 60));
+            const minutesDifference = Math.round((date.getTime() - Date.now()) / (1000 * 60));
             
             if (Math.abs(daysDifference) > 0) return rtf.format(daysDifference, 'day');
             if (Math.abs(hoursDifference) > 0) return rtf.format(hoursDifference, 'hour');
@@ -580,117 +593,83 @@
             return 'Baru saja';
         }
 
-        // Initialize Authentication to access Firestore
+        // Firestore Interaction Logic
+        function setupFirestoreInteractions(userId) {
+            const wishesRef = collection(db, "wishes");
+            const q = query(wishesRef, orderBy("createdAt", "desc"));
+
+            onSnapshot(q, (snapshot) => {
+                if (loadingText) loadingText.style.display = 'none';
+                container.innerHTML = '';
+
+                if (snapshot.empty) {
+                    container.innerHTML = `<div class="text-center text-gray-500 text-sm py-4">Belum ada ucapan. Jadilah yang pertama memberikan doa!</div>`;
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const card = document.createElement('div');
+                    card.className = 'glass p-4 rounded-xl border border-gray-800';
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-accent text-sm md:text-base">${data.name}</span>
+                            <span class="text-xs text-gray-400">${getRelativeTime(data.createdAt)}</span>
+                        </div>
+                        <p class="text-gray-300 text-xs md:text-sm leading-relaxed">${data.message}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }, (error) => {
+                console.error("Error fetching wishes: ", error);
+                if (loadingText) loadingText.textContent = "Gagal memuat ucapan.";
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const nameVal = document.getElementById('name').value.trim();
+                const messageVal = document.getElementById('message').value.trim();
+
+                if (!nameVal || !messageVal) {
+                    showToast('Harap isi semua kolom', true);
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...`;
+
+                try {
+                    await addDoc(wishesRef, {
+                        name: nameVal,
+                        message: messageVal,
+                        createdAt: serverTimestamp(),
+                        userId: userId
+                    });
+                    document.getElementById('message').value = '';
+                    showToast('Ucapan berhasil terkirim!');
+                } catch (err) {
+                    console.error("Error adding wish: ", err);
+                    showToast('Gagal mengirim ucapan.', true);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<span>Kirim Ucapan</span>`;
+                }
+            });
+        }
+
+        // Initialize Authentication
         async function initializeAppAuth() {
             try {
                 const credential = await signInAnonymously(auth);
-                const user = credential.user;
-                if (user) {
-                    setupFirestoreInteractions(user.uid);
+                if (credential.user) {
+                    setupFirestoreInteractions(credential.user.uid);
                 }
             } catch (error) {
-                console.error("Authentication Error:", error);
-                if (loadingText) loadingText.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500 mr-2"></i> Gagal terhubung ke database.';
-                showToast("Gagal terhubung ke server database", true);
+                console.error("Authentication error: ", error);
             }
         }
 
-        function setupFirestoreInteractions(userId) {
-            const wishesCollectionRef = collection(db, 'wishes');
-
-            // READ: Listen for real-time updates
-            onSnapshot(wishesCollectionRef, (snapshot) => {
-                const wishes = [];
-                snapshot.forEach(doc => {
-                    wishes.push({ id: doc.id, ...doc.data() });
-                });
-
-                // Sortir secara descending (paling baru di atas)
-                wishes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                renderWishes(wishes);
-            }, (error) => {
-                console.error("Firestore Listen Error:", error);
-                showToast("Gagal memuat daftar ucapan", true);
-            });
-
-            // WRITE: Handle form submission
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const nameInput = document.getElementById('name');
-                const messageInput = document.getElementById('message');
-                
-                const nameStr = nameInput.value.trim();
-                const messageStr = messageInput.value.trim();
-                
-                if (!nameStr || !messageStr) return;
-
-                // Disable UI during submission
-                submitBtn.disabled = true;
-                const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Mengirim...';
-                submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
-
-                try {
-                    await addDoc(wishesCollectionRef, {
-                        name: nameStr,
-                        message: messageStr,
-                        timestamp: Date.now(),
-                        userId: userId
-                    });
-                    
-                    form.reset();
-                    showToast("Terima kasih atas ucapan dan doa Anda!");
-                } catch (error) {
-                    console.error("Error adding document: ", error);
-                    showToast("Gagal mengirim ucapan, pastikan koneksi internet stabil.", true);
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-                }
-            });
-        }
-
-        function renderWishes(wishesArray) {
-            if (wishesArray.length === 0) {
-                container.innerHTML = '<div class="text-center text-gray-500 text-sm py-8">Belum ada ucapan. Jadilah yang pertama!</div>';
-                return;
-            }
-
-            container.innerHTML = ''; // Clear container
-
-            wishesArray.forEach(wish => {
-                const card = document.createElement('div');
-                card.className = 'glass p-5 rounded-xl mb-4 transition-all duration-300 hover:bg-white/5 border border-white/5 fade-in visible';
-                
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'flex justify-between items-start mb-2';
-
-                const nameEl = document.createElement('h4');
-                nameEl.className = 'font-semibold text-accent text-lg';
-                nameEl.textContent = wish.name;
-
-                const timeEl = document.createElement('span');
-                timeEl.className = 'text-xs text-gray-500 mt-1';
-                timeEl.textContent = getRelativeTime(wish.timestamp);
-
-                headerDiv.appendChild(nameEl);
-                headerDiv.appendChild(timeEl);
-
-                const messageEl = document.createElement('p');
-                messageEl.className = 'text-gray-300 text-sm leading-relaxed whitespace-pre-wrap';
-                messageEl.textContent = wish.message;
-
-                card.appendChild(headerDiv);
-                card.appendChild(messageEl);
-
-                container.appendChild(card);
-            });
-        }
-
-        // Mulai sambungan Firebase setelah halaman diload
         initializeAppAuth();
-
     </script>
 </body>
 </html>
